@@ -3,10 +3,14 @@
 import os
 import sys
 
-
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mysite.settings')
+    
+    # Menambahkan aplikasi WSGI untuk Vercel
+    from django.core.wsgi import get_wsgi_application
+    application = get_wsgi_application()  # Membuat objek WSGI untuk aplikasi Django
+    
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
