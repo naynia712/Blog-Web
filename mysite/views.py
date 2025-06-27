@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from artikel.models import Kategori, ArtikelBlog
+from django.contrib.auth.decorators import login_required
 
 def index(request):
     kategori_param = request.GET.get('kategori', None)
@@ -52,31 +53,42 @@ def galeri(request):
         "title":"selamat datang"
     }
     return render(request, template_name, context)
+
 #################### Dashboard ######################
+@login_required(login_url='login')
 def dashboard(request):
     if not request.user.is_authenticated:
         return redirect('/auth-login')
-    template_name = "dashboard/base.html"
-    context = {
-        "title":"selamat datang"
-    }
-    return render(request, template_name, context)
+    artikel_user = ArtikelBlog.objects.filter(
+        created_by=request.user,
+        status=True
+    ).order_by('-created_at')[:4] 
 
-def dashboard_index(request):
-    if not request.user.is_authenticated:
-        return redirect('/auth-login')
+  
+    kategori_counts = {}
+    for kategori in Kategori.objects.all():
+        count = ArtikelBlog.objects.filter(
+            kategori=kategori,
+            status=True
+        ).count()
+        kategori_counts[kategori.nama] = count
 
-    artikel_user = ArtikelBlog.objects.filter(created_by=request.user)
-    
     context = {
+        "title": "Selamat Datang",
         "artikel_user": artikel_user,
-        "title": "Dashboard"
+        "kategori_counts": kategori_counts
     }
-    return render(request, 'dashboard/index.html', context)
+    return render(request, "dashboard/index.html", context)
 
+@login_required(login_url='login')
 def artikel_list(request):
-    template_name = "dashboard/artikel_list.html"
+    artikel_user = ArtikelBlog.objects.filter(
+        created_by=request.user,
+        status=True
+    ).order_by('-created_at')
+
     context = {
-        "title":"selamat datang"
+        "title": "Daftar Artikel",
+        "artikel_user": artikel_user
     }
-    return render(request, template_name, context)
+    return render(request, "dashboard/artikel_list.html", context)

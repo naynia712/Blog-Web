@@ -14,7 +14,7 @@ urlpatterns = [
     path('artikel/update/<int:id_artikel>', api_artikel_blog_update),
     path('artikel/delete/<int:id_artikel>', api_artikel_blog_delete),
 
-     path('kategori/counts', api_kategori_counts),
+    path('kategori/counts', api_kategori_counts),
 ]
 
 
