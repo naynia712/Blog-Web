@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+      {% block content %}
+      <div class="container py-4">
+        <div class="col-md-12 mb-4">
+          <div class="card h-100">
+            <img src="{{ artikel.gambar.url }}" class="card-img-top" alt="{{ artikel.judul }}">
+              <div class="card-body">
+                <h5 class="card-title">{{ artikel.judul }}</h5>
+                <p class="card-text">{{ artikel.konten}}</p>
+              </div>
+            </div>
+          </div> 
+        </div>
+      {% endblock  %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script> -->
+  </body>
+</html>
